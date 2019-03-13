@@ -98,20 +98,27 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="songjhh&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="在 Java 泛型中，有一个叫做通配符上下界 bounded wildcard 的概念。  &amp;lt;? extends T&amp;gt;：指的是上界通配符 (Upper Bounded Wildcards)  &amp;lt;? super T&amp;gt;：指的是下界通配符 (Lower Bounded Wildcards)   相对应在 Kotlin 泛型中，有 out 和 in 两个关键字 下面我将会以工位分配">
+<meta name="keywords" content="Java,Kotlin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对比Java泛型中的extends&#x2F;super和Kotlin的out&#x2F;in">
+<meta property="og:url" content="http://yoursite.com/2019/03/13/对比Java泛型中的extends-super和Kotlin的out-in/index.html">
 <meta property="og:site_name" content="songjhh&#39;s blog">
+<meta property="og:description" content="在 Java 泛型中，有一个叫做通配符上下界 bounded wildcard 的概念。  &amp;lt;? extends T&amp;gt;：指的是上界通配符 (Upper Bounded Wildcards)  &amp;lt;? super T&amp;gt;：指的是下界通配符 (Lower Bounded Wildcards)   相对应在 Kotlin 泛型中，有 out 和 in 两个关键字 下面我将会以工位分配">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://songjhh-image.oss-cn-shenzhen.aliyuncs.com/19-3-4/Screen%20Shot%202019-03-04%20at%206.54.06%20PM.png">
+<meta property="og:updated_time" content="2019-03-13T00:48:47.719Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="songjhh&#39;s blog">
+<meta name="twitter:title" content="对比Java泛型中的extends&#x2F;super和Kotlin的out&#x2F;in">
+<meta name="twitter:description" content="在 Java 泛型中，有一个叫做通配符上下界 bounded wildcard 的概念。  &amp;lt;? extends T&amp;gt;：指的是上界通配符 (Upper Bounded Wildcards)  &amp;lt;? super T&amp;gt;：指的是下界通配符 (Lower Bounded Wildcards)   相对应在 Kotlin 泛型中，有 out 和 in 两个关键字 下面我将会以工位分配">
+<meta name="twitter:image" content="https://songjhh-image.oss-cn-shenzhen.aliyuncs.com/19-3-4/Screen%20Shot%202019-03-04%20at%206.54.06%20PM.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/13/对比Java泛型中的extends-super和Kotlin的out-in/">
 
 
 
@@ -121,7 +128,7 @@
   };
 </script>
 
-  <title>songjhh's blog</title>
+  <title>对比Java泛型中的extends/super和Kotlin的out/in | songjhh's blog</title>
   
 
 
@@ -169,8 +176,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -212,7 +218,7 @@
         
         
           
-          <li class="menu-item menu-item-home menu-item-active">
+          <li class="menu-item menu-item-home">
 
     
     
@@ -354,9 +360,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -388,10 +394,8 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/13/对比Java泛型中的extends-super和Kotlin的out-in/" class="post-title-link" itemprop="url">对比Java泛型中的extends/super和Kotlin的out/in</a>
+          <h1 class="post-title" itemprop="name headline">对比Java泛型中的extends/super和Kotlin的out/in
+
               
             
           </h1>
@@ -497,9 +501,7 @@
       
 
       
-        
-          
-            <p>在 Java 泛型中，有一个叫做<strong>通配符上下界</strong> <code>bounded wildcard</code> 的概念。</p>
+        <p>在 Java 泛型中，有一个叫做<strong>通配符上下界</strong> <code>bounded wildcard</code> 的概念。</p>
 <ul>
 <li><p><code>&lt;? extends T&gt;</code>：指的是上界通配符 (Upper Bounded Wildcards)</p>
 </li>
@@ -617,8 +619,6 @@
 <hr>
 <p>谢谢阅读</p>
 
-          
-        
       
     </div>
 
@@ -639,14 +639,22 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Kotlin/" rel="tag"># Kotlin</a>
+          
+        </div>
+      
+
+      
+      
+      
 
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -656,14 +664,19 @@
   </article>
 
 
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
 
         </div>
         
@@ -683,8 +696,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -764,6 +786,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解决的问题"><span class="nav-number">1.</span> <span class="nav-text">解决的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有界限的通配符（Bounded-Wildcards）"><span class="nav-number">2.</span> <span class="nav-text">有界限的通配符（Bounded Wildcards）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上界通配符（extends）"><span class="nav-number">2.1.</span> <span class="nav-text">上界通配符（extends）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下界通配符"><span class="nav-number">2.2.</span> <span class="nav-text">下界通配符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Kotlin的世界里是怎么样的？"><span class="nav-number">3.</span> <span class="nav-text">在Kotlin的世界里是怎么样的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kotlin-和-Java-的异同"><span class="nav-number">4.</span> <span class="nav-text">Kotlin 和 Java 的异同</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用处型变"><span class="nav-number">4.1.</span> <span class="nav-text">使用处型变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#声明处型变"><span class="nav-number">4.2.</span> <span class="nav-text">声明处型变</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -886,6 +925,10 @@
 
 
   
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
 
   
 
@@ -930,6 +973,8 @@
 
 
 
+
+  
 
 
   
