@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-CN">
+<html class="theme-next pisces use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,7 +72,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Pisces',
     version: '7.0.1',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -98,13 +98,16 @@
 
 
 
-  <meta property="og:type" content="website">
+  <meta name="description" content="关于技术、工具和心得的分享">
+<meta property="og:type" content="website">
 <meta property="og:title" content="songjhh&#39;s blog">
 <meta property="og:url" content="http://yoursite.com/index.html">
 <meta property="og:site_name" content="songjhh&#39;s blog">
+<meta property="og:description" content="关于技术、工具和心得的分享">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="songjhh&#39;s blog">
+<meta name="twitter:description" content="关于技术、工具和心得的分享">
 
 
 
@@ -308,9 +311,6 @@
   
 
   
-    
-
-  
 
   
     <div class="site-search">
@@ -352,6 +352,9 @@
       <div class="main-inner">
         <div class="content-wrap">
           
+            
+
+          
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
@@ -375,7 +378,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="songjhh">
-      <meta itemprop="description" content>
+      <meta itemprop="description" content="关于技术、工具和心得的分享">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
@@ -499,125 +502,23 @@
       
         
           
-            <p>在 Java 泛型中，有一个叫做<strong>通配符上下界</strong> <code>bounded wildcard</code> 的概念。</p>
-<ul>
-<li><p><code>&lt;? extends T&gt;</code>：指的是上界通配符 (Upper Bounded Wildcards)</p>
-</li>
-<li><p><code>&lt;? super T&gt;</code>：指的是下界通配符 (Lower Bounded Wildcards)</p>
-</li>
-</ul>
-<p>相对应在 Kotlin 泛型中，有 <code>out</code> 和 <code>in</code> 两个关键字</p>
-<p>下面我将会以工位分配的例子解释它可以用来解决什么问题，并且对比 Java 来说，Kotlin 作了什么改进。</p>
-<h2 id="解决的问题"><a href="#解决的问题" class="headerlink" title="解决的问题"></a>解决的问题</h2><p>这里有4个实体，分别是 <code>Employee</code> (员工基类），<code>Manager</code> (经理）, <code>DevManager</code> (开发经理)，<code>WorkStation</code> 工位。</p>
-<p>它们的关系如下：<br><img src="https://songjhh-image.oss-cn-shenzhen.aliyuncs.com/19-3-4/Screen%20Shot%202019-03-04%20at%206.54.06%20PM.png" alt="类关系图"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Employee</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Manager</span> <span class="keyword">extends</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Integer level;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Manager</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DevManager</span> <span class="keyword">extends</span> <span class="title">Manager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String language;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DevManager</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中一个工位可以坐一个员工, 这里用泛型抽象出员工来：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WorkStation</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T employee;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WorkStation</span><span class="params">(T employee)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.employee = employee;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>按照逻辑，一个经理的工位，当然也是一个员工的工位，但事实真的如此吗？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个经理工位</span></span><br><span class="line">WorkStation&lt;Manager&gt; managerWorkStation = <span class="keyword">new</span> WorkStation&lt;&gt;(<span class="keyword">new</span> Manager(<span class="string">"John"</span>));</span><br><span class="line"><span class="comment">// 将经理工位赋给员工工位</span></span><br><span class="line">WorkStation&lt;Employ&gt; employWorkStation = managerWorkStation; <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
-<p>但这里会报 <code>incompatible types: WorkStation&lt;Manager&gt; cannot be converted to WorkStation&lt;Employee&gt;</code>，意思是两个类型不能相互转化。虽然 <code>Manager</code> 继承于 <code>Employee</code> ，但是两个类型的工位并没有继承关系，所以不能直接将经理工位的引用传给员工工位。</p>
-<p>造成这个现象的原因，是因为Java 的参数类型是<strong>不型变的</strong> <code>invariant</code>，<strong>而通配符上下界正是为了绕过这个问题。</strong></p>
-<blockquote>
-<p>ps: 型变在计算机编程中，特别是面向对象编程，是重要的基石，可以在测试阶段帮助程序员发现很多的错误，这里不展开讨论。</p>
-</blockquote>
-<h2 id="有界限的通配符（Bounded-Wildcards）"><a href="#有界限的通配符（Bounded-Wildcards）" class="headerlink" title="有界限的通配符（Bounded Wildcards）"></a>有界限的通配符（Bounded Wildcards）</h2><p>为了帮助理解和记忆，在讲通配符上下界之前，这里先讲一讲<strong>PECS原则</strong>。</p>
-<blockquote>
-<p><strong>PECS stands for producer-extends, consumer-super</strong> </p>
-<p><em>From: Effective Java Third Edition - Item 31</em></p>
-</blockquote>
-<p>这里引用的是 <em>Effective Java Third Edition</em> 关于如何利用 <code>bounded wildcards</code> 来提升 API 灵活性章节一个助记词。</p>
-<p>简单来说，<strong>生产者</strong>适合用 <code>&lt;? extends T&gt;</code>，而<strong>消费者</strong>适合用 <code>&lt;? super T&gt;</code>，这里<strong>生产者</strong>指的是能用来读取的对象，<strong>消费者</strong>指的是用来写入的对象，下面将会详细解释这两个概念。</p>
-<h3 id="上界通配符（extends）"><a href="#上界通配符（extends）" class="headerlink" title="上界通配符（extends）"></a>上界通配符（extends）</h3><p>还是接着上面的例子，员工的工位为了获得经理工位的引用，这里使用<strong>上界通配符</strong> <code>&lt;? extends T&gt;</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个经理工位</span></span><br><span class="line">WorkStation&lt;Manager&gt; managerWorkStation = <span class="keyword">new</span> WorkStation&lt;&gt;(<span class="keyword">new</span> Manager(<span class="string">"John"</span>));</span><br><span class="line"><span class="comment">// 将经理工位的引用赋给一个继承于员工对象的工位</span></span><br><span class="line">WorkStation&lt;? extends Employee&gt; exWorkStation = managerWorkStation;</span><br></pre></td></tr></table></figure>
-<p>可以看到使用了<strong>上界通配符</strong>，我们将经理工位和员工工位关联起来了，使得 Java 泛型的灵活性大大增加。</p>
-<p>但是上面介绍了 <code>PECS原则</code> , 它指出上界通配符只适合用于<strong>生产者</strong>中，下面我带大家来看看这句话如何理解：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">WorkStation&lt;Manager&gt; managerWorkStation = <span class="keyword">new</span> WorkStation&lt;&gt;(<span class="keyword">new</span> Manager(<span class="string">"John"</span>));</span><br><span class="line">WorkStation&lt;? extends Employee&gt; exWorkStation = managerWorkStation;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只可以获取它和它的基类</span></span><br><span class="line">Object a = exWorkStation.getEmployee();</span><br><span class="line">Employee b = exWorkStation.getEmployee();</span><br><span class="line">DevManager d = exWorkStation.getEmployee(); <span class="comment">// error</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 不可以存储</span></span><br><span class="line">exWorkStation.setEmployee(<span class="keyword">new</span> Employee(<span class="string">"Sam"</span>)); <span class="comment">// error, incompatible types: Manager cannot be coverted to capture#1 of ? extends Employee</span></span><br><span class="line">exWorkStation.setEmployee(<span class="keyword">new</span> DevManager(<span class="string">"James"</span>)); <span class="comment">// error, incompatible types: DevManager cannot be coverted to capture#1 of ? extends Employee</span></span><br></pre></td></tr></table></figure>
-<p>上面的例子可以看到，使用了<strong>上界通配符</strong>只能用 <code>get()</code> 方法取出工位<strong>占位的类型和其基类</strong>，但是不能再用 <code>set()</code> 方法存对象到工位中，所以说<strong>上界通配符只适合用于生产者中</strong>。</p>
-<p>原因也很好理解，因为编译器只知道工位坐的人是 <code>Employee</code> 对象或它的派生类，但不知道具体是哪个对象（编译器用 <code>capture#1</code> 标记占位，指这里捕获 <code>Employee</code> 和它的子类），所以不能够判断存入的对象是不是这个工位能够匹配的：</p>
-<ul>
-<li>坐在 <code>exWorkStation</code> 的人一定是一个员工，所以可以取出 <code>Employee</code></li>
-<li><code>exWorkStation</code> 可能是 <code>Manager</code> 的工位，所以这里存取 <code>TestManager</code>是没问题的。但问题在于它也可能是 <code>DevManager</code> 的工位，那么 <code>TestManager</code> 就不能坐在这个工位里了，编辑器无法判断，所以<strong>上界通配符</strong>不能用 <code>set()</code> 方法</li>
-</ul>
-<p>简而言之，上界通配符 <code>Upper Bounded Wildcards</code> 使得参数类型是<strong>协变的<code>covariant</code></strong>。</p>
-<h3 id="下界通配符"><a href="#下界通配符" class="headerlink" title="下界通配符"></a>下界通配符</h3><p>和<strong>上界通配符</strong>恰恰相反，<strong>下界通配符</strong> <code>&lt;? super T&gt;</code> 适合存储对象的场景。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">WorkStation&lt;? <span class="keyword">super</span> Manager&gt; supWorkStation = <span class="keyword">new</span> WorkStation&lt;&gt;(<span class="keyword">new</span> Manager(<span class="string">"James"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以存储它和它的子类</span></span><br><span class="line">supWorkStation.setEmployee(<span class="keyword">new</span> DevManager(<span class="string">"Sam"</span>));</span><br><span class="line">supWorkStation.setEmployee(<span class="keyword">new</span> Manager(<span class="string">"Sam"</span>));</span><br><span class="line">supWorkStation.setEmployee(<span class="keyword">new</span> Employee(<span class="string">"Sam"</span>)); <span class="comment">// error</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 只可以获取所有类的基类 - Object</span></span><br><span class="line">Object o = supWorkStation.getEmployee();</span><br><span class="line">Employee e = supWorkStation.getEmployee(); <span class="comment">// error</span></span><br><span class="line">Manager e = supWorkStation.getEmployee(); <span class="comment">// error</span></span><br><span class="line">DevManager e = supWorkStation.getEmployee(); <span class="comment">// error</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 只能安全强转成它和它的基类</span></span><br><span class="line">Employee employee = (Employee) o;</span><br><span class="line">Manager manager = (Manager) o;</span><br><span class="line"></span><br><span class="line">WorkStation&lt;? <span class="keyword">super</span> Manager&gt; w = <span class="keyword">new</span> WorkStation&lt;&gt;(<span class="keyword">new</span> Manager(<span class="string">"Sam"</span>));</span><br><span class="line"><span class="comment">// ClassCastException: Manager cannot be cast to DevManager</span></span><br><span class="line">DevManager devManager = (DevManager) w.getEmployee();</span><br></pre></td></tr></table></figure>
-<p>上面的例子可以看到，使用<strong>下界通配符</strong>可以用 <code>set()</code> 方法储存 <code>Manager</code> 和其子类，但只能用 <code>get()</code> 方法获得所有类的基类 <code>Object</code> 对象。使用强转的话，只能强转成 <code>Manager</code> 和它的基类，如果强转成 <code>Manager</code> 的子类的话，<strong>有可能</strong>会报 <code>ClassCastException</code> 运行时异常。</p>
-<p>因为存入方便，取出数据比较麻烦，所以说<strong>下界通配符</strong>适合使用在消费者中。</p>
-<p>究其原因，可以简单理解为，<strong>下界通配符</strong>标记了该工位<strong>至少</strong>是 <code>Manager</code> 的工位，所以这里无论是坐 <code>DevManager</code> 还是 <code>TestManager</code> 都没有问题。</p>
-<p>这个就叫做<strong>逆变性（<code>contravariance</code>）</strong>。</p>
-<h2 id="在Kotlin的世界里是怎么样的？"><a href="#在Kotlin的世界里是怎么样的？" class="headerlink" title="在Kotlin的世界里是怎么样的？"></a>在Kotlin的世界里是怎么样的？</h2><p>是 Java 世界是用通配符上下界来觉得<strong>泛型不型变</strong>的，那在 Kotlin 是怎么样的呢？</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> managerWorkStation: WorkStation&lt;Manager&gt; = WorkStation(Manager(<span class="string">"John"</span>))</span><br><span class="line"><span class="keyword">val</span> station: WorkStation&lt;Employee&gt; = managerWorkStation <span class="comment">// error, type mismatch</span></span><br></pre></td></tr></table></figure>
-<p>由此看到在 Kotlin 里对泛型也是有限制的。相对于 Java 提供的 <code>&lt;? extends T&gt;</code> 和 <code>&lt;? super T&gt;</code>，Kotlin 相对应提供了 <code>out</code> 和 <code>in</code> 关键字。</p>
-<p>在 Kotlin 中 <code>out</code> 相当于 <code>&lt;? extends T&gt;</code>，<code>in</code> 相当于 <code>&lt;? super T&gt;</code>，这里看看用法。</p>
-<p><code>out</code> 关键字：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> managerWorkStation: WorkStation&lt;Manager&gt; = WorkStation(Manager(<span class="string">"John"</span>))</span><br><span class="line"><span class="keyword">val</span> outStation: WorkStation&lt;<span class="keyword">out</span> Employee&gt; = managerWorkStation</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只可以获取它和它的基类</span></span><br><span class="line"><span class="keyword">val</span> a: Any = outStation.employee</span><br><span class="line"><span class="keyword">val</span> b: Employee = outStation.employee</span><br><span class="line"><span class="keyword">val</span> c: Employee = managerWorkStation.employee</span><br><span class="line"><span class="keyword">val</span> d: DevManager = managerWorkStation.employee <span class="comment">// error, type mismatch</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 不可以存储</span></span><br><span class="line">outStation.employee = DevManager(<span class="string">"Sam"</span>) <span class="comment">// Setter for 'employee' is removed by type projection</span></span><br></pre></td></tr></table></figure>
-<p><code>in</code>关键字：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> inStation: WorkStation&lt;<span class="keyword">in</span> Manager&gt; = WorkStation()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以存储它和它的子类</span></span><br><span class="line">inStation.employee = Manager(<span class="string">"James"</span>)</span><br><span class="line">inStation.employee = DevManager(<span class="string">"James"</span>)</span><br><span class="line">inStation.employee = Employee(<span class="string">"James"</span>) <span class="comment">// error, type mismatch</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 只可以获得Any</span></span><br><span class="line"><span class="keyword">val</span> any: Any? = inStation.employee</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只能安全强转成它和它的基类</span></span><br><span class="line"><span class="keyword">val</span> employee: Employee = any <span class="keyword">as</span> Employee</span><br><span class="line"><span class="keyword">val</span> manager:Manager = any <span class="keyword">as</span> Manager</span><br></pre></td></tr></table></figure>
-<p>由以上两个例子可以看到，Kotlin 和 Java 非常相似，只是相关的关键字有所不同而已。但毕竟 Kotlin 是号称要解决 Java 的，那么会不会哪里有所不同呢？</p>
-<h2 id="Kotlin-和-Java-的异同"><a href="#Kotlin-和-Java-的异同" class="headerlink" title="Kotlin 和 Java 的异同"></a>Kotlin 和 Java 的异同</h2><h3 id="使用处型变"><a href="#使用处型变" class="headerlink" title="使用处型变"></a>使用处型变</h3><p>在 Java 中，<strong>上下界通配符</strong>只能用在<em>参数、属性、变量或者返回值</em>中，不能在泛型声明处使用，所以才叫做<strong>使用处型变</strong>。</p>
-<p>以上的 Kotlin 例子也用的是<strong>使用处型变</strong>，被称为<strong>类型投影</strong>。</p>
-<p>所以 Java 和 Kotlin 都提供<strong>使用处型变</strong>。</p>
-<h3 id="声明处型变"><a href="#声明处型变" class="headerlink" title="声明处型变"></a>声明处型变</h3><p>但不同的是，Kotlin 还提供 Java 所不具备的<strong>声明处型变</strong>。</p>
-<p>顾名思义，Kotlin 提供的 <code>out</code> 和 <code>in</code> 两个型变关键字还可以用于泛型声明的时候。</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Collection</span>&lt;<span class="type">out E</span>&gt; : <span class="type">Iterable</span>&lt;<span class="type">E</span>&gt; </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误，这里只能用val，不能用var</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Source</span>&lt;<span class="type">out T</span>&gt;</span>(<span class="keyword">var</span> t: T) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在声明处设置 <code>out</code> 后，使得了在 Kotlin 中，<code>Collection&lt;Number&gt;</code> 安全的作为 <code>Collection&lt;Int&gt;</code> 的父类使用，但 <code>E</code> 被标记为 <code>out</code> 后，<code>E</code>只能被输出而不能写入。</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Comparable</span>&lt;<span class="type">in T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">compareTo</span><span class="params">(other: <span class="type">T</span>)</span></span>: <span class="built_in">Int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">demo</span><span class="params">(x: <span class="type">Comparable</span>&lt;<span class="type">Number</span>&gt;)</span></span> &#123;</span><br><span class="line">    x.compareTo(<span class="number">1.0</span>) <span class="comment">// 1.0 拥有类型 Double，它是 Number 的子类型</span></span><br><span class="line">    <span class="comment">// 因此，我们可以将 x 赋给类型为 Comparable &lt;Double&gt; 的变量</span></span><br><span class="line">    <span class="keyword">val</span> y: Comparable&lt;<span class="built_in">Double</span>&gt; = x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Comparable</code> 在声明处设置 <code>in</code> 后，<code>x</code> 就可以和 <code>Number</code> 或它的子类进行比较了。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上就是 Java 和 Kotlin 关于泛型型变的内容，其中 Kotlin 对比 Java，多加了<strong>声明处型变</strong>的方式。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Java</th>
-<th style="text-align:center">Java示例代码</th>
-<th style="text-align:center">Kotlin示例代码</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">使用处型变</td>
-<td style="text-align:center"><code>void example(List&lt;? extends Number&gt; list)</code></td>
-<td style="text-align:center"><code>fun example(list: List&lt;out Number&gt;)</code></td>
-</tr>
-<tr>
-<td style="text-align:left">使用处逆变</td>
-<td style="text-align:center"><code>void example(List&lt;? super Integer&gt;)</code></td>
-<td style="text-align:center"><code>fun example(list: List&lt;in Int&gt;)</code></td>
-</tr>
-<tr>
-<td style="text-align:left">声明处型变</td>
-<td style="text-align:center">-</td>
-<td style="text-align:center"><code>interface Collection&lt;out E&gt; : Iterable&lt;E&gt;</code></td>
-</tr>
-<tr>
-<td style="text-align:left">声明处逆变</td>
-<td style="text-align:center">-</td>
-<td style="text-align:center"><code>interface Comparable&lt;in T&gt;</code></td>
-</tr>
-</tbody>
-</table>
-<p>为了帮助记忆，上文引用了<strong>PECS原则：producer-extends, consumer-super</strong>。</p>
-<p>最后这里再引用<em>Effective Java - 31 | Use bounded wildcards to increase API flexibilty</em>里面对<strong>通配符</strong>的几个意见：</p>
-<ul>
-<li><blockquote>
-<p>If an input parameter is both a producer and a consumer, then wildcard types will do you no good.</p>
-</blockquote>
-<p>如果输入参数同时是生产者和消费者， 那么通配符对你来说不是一个好的选择。</p>
-</li>
-<li><blockquote>
-<p>Do not use bounded wildcard types as return types, if the user of a class has to think about wildcard types, there is probably something wrong with its API.</p>
-</blockquote>
-<p>不要用界限通配符作为你的返回类型，如果类的用户必须考虑通配符类型，类的 API 或许就会出错。</p>
-</li>
-<li><blockquote>
-<p>If a type parameter appears only once in a method declaration, replace it with a wildcard.</p>
-</blockquote>
-<p>如果类型参数只在方法声明中出现一次，就可以用通配符取代它。</p>
-</li>
-</ul>
-<hr>
-<p>谢谢阅读</p>
+            <p>
+              在 Java 泛型中，有一个叫做通配符上下界 bounded wildcard 的概念。
 
+&lt;? extends T&gt;：指的是上界通配符 (Upper Bounded Wildcards)
+
+&lt;? super T&gt;：指的是下界通配符 (Lower Bounded Wildca
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/13/对比Java泛型中的extends-super和Kotlin的out-in/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -689,7 +590,7 @@
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">songjhh</p>
-              <div class="site-description motion-element" itemprop="description"></div>
+              <div class="site-description motion-element" itemprop="description">关于技术、工具和心得的分享</div>
           </div>
 
           
@@ -881,7 +782,9 @@
   
 
 
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
 
 
 
